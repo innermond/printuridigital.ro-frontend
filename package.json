@@ -1,0 +1,40 @@
+{
+ "name": "printuridigital.ro",
+ "version": "1.0.0",
+ "description": "website frontend",
+ "main": "index.js",
+ "author": "Gabriel Braila",
+ "license": "MIT",
+ "private": true,
+ "scripts": {
+  "css-compile-one": "ONE=${one}; node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/scss/$ONE.scss dist/css/$ONE.css",
+  "css-compile-all": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/scss --output dist/css/",
+  "css-prefix-one": "ONE=${one}; postcss --use autoprefixer --replace \"dist/css/$ONE.css\"",
+  "css-prefix-all": "postcss --use autoprefixer --replace \"dist/css/*.css\" \"!dist/css/*.min.css\"",
+  "css-minify-one": "ONE=${one}; cleancss --level 1 --source-map --source-map-inline-sources --output dist/css/$ONE.min.css dist/css/$ONE.css",
+  "css-minify-all": "find dist/css -type f -not -name '*.min.css' -name '*.css' -exec bash -c 'out=\"${1%.css}\"; cleancss --level 1 --source-map --source-map-inline-sources --output $out.min.css $1' _ {} \\;",
+  "css-one": "ONE=${one}; npm-run-all css-compile-one css-prefix-one css-minify-one",
+  "css-all": "npm-run-all css-rm css-compile-all css-prefix-all css-minify-all",
+	"css-rm": "find dist/css -type f -exec rm -fv {} \\;",
+  "js-compile-one": "ONE=${one}; babel src/js/$ONE.js --out-file dist/js/$ONE.js --source-maps",
+  "js-compile-all": "babel src/js --out-dir dist/js --source-maps",
+  "js-minify-one": "ONE=${one}; uglifyjs dist/js/$ONE.js --compress --mangle --source-map  url=$ONE.min.js.map --output dist/js/$ONE.min.js",
+  "js-minify-all": "find dist/js -type f -not -name '*.min.js' -name '*.js' -exec bash -c 'out=\"${1%.js}\"; uglifyjs \"$1\" --compress --mangle --source-map  url=\"${out##*/}\".min.js.map --output \"$out\".min.js' _ {} \\;",
+  "js-one": "ONE=${one}; npm-run-all js-compile-one js-minify-one",
+  "js-all": "npm-run-all js-rm js-compile-all js-minify-all",
+	"js-rm": "find dist/js -type f -exec rm -fv {} \\;",
+	"rm-all": "npm-run-all --parallel css-rm js-rm",
+	"build": "npm-run-all --parallel css-all js-all"
+ },
+ "dependencies": {},
+ "devDependencies": {
+  "autoprefixer": "^8.5.0",
+  "babel-cli": "^6.26.0",
+  "babel-preset-env": "^1.7.0",
+  "clean-css-cli": "^4.1.11",
+  "node-sass": "^4.9.0",
+  "npm-run-all": "^4.1.3",
+  "postcss-cli": "^5.0.0",
+  "uglify-js": "^3.3.25"
+ }
+}

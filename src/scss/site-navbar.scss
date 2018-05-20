@@ -1,0 +1,211 @@
+@import "base/reset";
+
+// Minimal HTML classes approach
+$background-color:#334;
+$color:#222;
+$link-color:#a7a7a7;
+$link-color--hover:lighten($link-color,20%);
+$site-header--background-color-hover:lighten($background-color,10%);
+$site-header--background-color-stacked:lighten($background-color,40%);
+
+$transition-colors:color .5s ease-out, background-color .5s ease-out;
+
+@mixin text-truncate() {
+  white-space:nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;  
+}
+
+*{box-sizing:border-box;}
+
+body {
+  font-family: 'Roboto Slab';
+  background-color: #aaa;
+}
+
+.navbar, .megamenu {
+  position:relative;
+}
+
+.navbar {
+  width: 80%;
+  //height: 3rem;
+  margin:auto;
+}
+
+%item {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  position:relative;
+  min-width: 12rem;
+  padding: .5rem;
+}
+
+%leader { 
+  @extend %item;
+  
+  min-width: auto;
+  display:flex;
+  flex:1 0 0%;
+  align-items:center;
+  justify-content:flex-start;
+  cursor: pointer;
+  transition:$transition-colors;
+  background-color: $background-color;
+  overflow: hidden; 
+}
+
+.megamenu {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: stretch;
+}
+
+// common menu item
+.megamenu li {
+  @extend %item;
+}
+// leader menu item
+.megamenu > li {
+  min-width: auto;
+  display:flex;
+  flex:1 0 0%;
+  align-items:center;
+  justify-content:flex-start;
+  cursor: pointer;
+  transition:$transition-colors;
+  background-color: $background-color;
+  
+  overflow: hidden;
+  // leader menu item that has a submenu
+  &[class~=has-submenu] {
+    overflow: visible;
+    background-color: fuchsia;
+  }
+  
+  // burger leader menu item 
+  &.burger {
+    display:none;
+    font-weight: 900;
+    flex:0 1 auto;
+    justify-content:flex-end;
+    color:$link-color;    
+  }
+  // social leader menu item
+  &.social-icons {
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:flex-end;
+    align-items:center;
+    flex:0;
+    min-width: 12rem;
+    & a {
+      padding-right:.5rem;
+      text-decoration:none;
+      flex:1 0 0%;
+    }
+  }
+  // leader menu item that provide ellipsis capability
+  & > .ellipsis {
+    flex:1 1 0%; 
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    & > svg {
+      flex-shrink:0;
+    }
+    & > span {
+      display: inline-block;
+      margin-left: .5rem;
+      @include text-truncate;
+    }
+  }
+  // leader menu item states
+  &:hover, .icon:hover {
+    background-color:$site-header--background-color-hover;
+  }
+  // hide 4th child of leader menu item node; it depends on html source order!!!!
+  @at-root.site-header--is-stack#{&}:nth-child(n+4) {
+    display:flex;
+    min-width:100%;
+    background-color:$site-header--background-color-stacked;
+    &:hover {
+      background-color:$site-header--background-color-hover;
+    }
+} 
+
+  
+    @media only screen and (max-width: 480px) {
+      &:nth-child(n+4) {
+        display:none;
+      } 
+      &.burger {
+        display:flex;
+      }
+      &.social-icons {
+        justify-content:flex-start;
+      }
+    }  
+}
+
+.megamenu li > a {
+  display:flex;
+  flex:1;
+}
+.megamenu li > a:hover{
+  color: $link-color--hover;
+}
+.megamenu li.has-submenu > a {
+  justify-content: center;
+  flex:1;
+}
+
+.megamenu .submenu {
+  display:none;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  flex: 1;
+  position:absolute;
+  top:100%;
+  z-index:1;
+  background-color: lighten($background-color, 5%);
+}
+
+.megamenu .submenu ul {
+  display:flex;
+  flex-wrap:wrap;
+  flex:1 0 0%;
+
+}
+
+.megamenu li>ul[class~=submenu]{
+  display:none;
+}
+.megamenu li:hover>ul[class~=submenu]{
+  display:flex;
+}
+
+a, .has-link-appearance {
+  transition:$transition-colors;
+  text-decoration:none;
+  color:$link-color;
+  &:hover {
+    color:$link-color--hover;
+  }
+}
+
+.icon {
+  width:1rem;
+  height:1rem;
+  fill:$link-color;
+  &:hover {
+    fill:$link-color--hover;
+  }
+}
+
+li.grow-no {
+  flex: 0 1 auto;
+}
