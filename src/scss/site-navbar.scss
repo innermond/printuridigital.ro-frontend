@@ -1,26 +1,32 @@
-@import "base/reset";
+@import "base/all";
 
 // Minimal HTML classes approach
-$background-color:#334;
-$color:#222;
-$link-color:#a7a7a7;
-$link-color--hover:lighten($link-color,20%);
-$site-header--background-color-hover:lighten($background-color,10%);
-$site-header--background-color-stacked:lighten($background-color,40%);
 
-$transition-colors:color .5s ease-out, background-color .5s ease-out;
+// colors
+$megamenu-background-color: $white;
+$megamenu-color: theme-color('light');
+$megamenu-link-color: theme-color('primary');
+$megamenu-link-color--hover:lighten($megamenu-link-color,20%);
+$megamenu-transition-colors:color .5s ease-out, background-color .5s ease-out;
 
-@mixin text-truncate() {
-  white-space:nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;  
-}
+$site-header--background-color-hover:lighten($megamenu-background-color,10%);
+$site-header--background-color-stacked:lighten($megamenu-background-color,40%);
 
-*{box-sizing:border-box;}
+$grey-test: grey('00');
+@debug $grey-test;
 
 body {
-  font-family: 'Roboto Slab';
-  background-color: #aaa;
+  font-family:  'Lato', sans-serif;
+  background-color: $white;
+	text-size-adjust: 100%;
+  font-size: $base-font-size;
+  line-height: $line-height;
+
+	&.grid {
+		background: linear-gradient(to bottom, hsla(200, 100%, 50%, 1) 1px, transparent 1px) left top / 100% $unit repeat,
+	 linear-gradient(to bottom, hsla(100, 100%, 40%, 1) 2px, transparent 2px) left top / 100% $line-height repeat//,
+    //linear-gradient(to right, rgb(255, 150, 0) 1px, transparent 1px) left top / $line-height 100% repeat;
+	}
 }
 
 .navbar, .megamenu {
@@ -28,9 +34,11 @@ body {
 }
 
 .navbar {
-  width: 80%;
-  //height: 3rem;
-  margin:auto;
+  width: 100%;
+  background-color: $megamenu-background-color;
+	border-bottom: 1px solid grey(10);
+	position: fixed;
+	z-index: 1;
 }
 
 %item {
@@ -51,16 +59,19 @@ body {
   align-items:center;
   justify-content:flex-start;
   cursor: pointer;
-  transition:$transition-colors;
-  background-color: $background-color;
+  transition:$megamenu-transition-colors;
+  background-color: $megamenu-background-color;
   overflow: hidden; 
 }
 
 .megamenu {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
   align-items: stretch;
+  width: 100%;
+	max-width: $max-width;
+	height: 1 * $line-height;
+	margin: auto;
 }
 
 // common menu item
@@ -75,14 +86,14 @@ body {
   align-items:center;
   justify-content:flex-start;
   cursor: pointer;
-  transition:$transition-colors;
-  background-color: $background-color;
+  transition:$megamenu-transition-colors;
+  background-color: $megamenu-background-color;
   
   overflow: hidden;
   // leader menu item that has a submenu
   &[class~=has-submenu] {
     overflow: visible;
-    background-color: fuchsia;
+    background-color: theme-color('accent');
   }
   
   // burger leader menu item 
@@ -91,7 +102,7 @@ body {
     font-weight: 900;
     flex:0 1 auto;
     justify-content:flex-end;
-    color:$link-color;    
+    color:$megamenu-link-color;    
   }
   // social leader menu item
   &.social-icons {
@@ -156,7 +167,7 @@ body {
   flex:1;
 }
 .megamenu li > a:hover{
-  color: $link-color--hover;
+  color: $megamenu-link-color--hover;
 }
 .megamenu li.has-submenu > a {
   justify-content: center;
@@ -171,7 +182,10 @@ body {
   position:absolute;
   top:100%;
   z-index:1;
-  background-color: lighten($background-color, 5%);
+  background-color: lighten($megamenu-background-color, 5%);
+	border-bottom: 1px solid grey(10);
+	border-left: 1px solid grey(10);
+	border-right: 1px solid grey(10);
 }
 
 .megamenu .submenu ul {
@@ -189,20 +203,20 @@ body {
 }
 
 a, .has-link-appearance {
-  transition:$transition-colors;
+  transition:$megamenu-transition-colors;
   text-decoration:none;
-  color:$link-color;
+  color:$megamenu-link-color;
   &:hover {
-    color:$link-color--hover;
+    color:$megamenu-link-color--hover;
   }
 }
 
 .icon {
   width:1rem;
   height:1rem;
-  fill:$link-color;
+  fill:$megamenu-link-color;
   &:hover {
-    fill:$link-color--hover;
+    fill:$megamenu-link-color--hover;
   }
 }
 

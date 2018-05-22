@@ -1,0 +1,35 @@
+@import "../util/scales";
+
+@function line-height($font-size) {
+  $lh: $line-height;
+  @if $line-height <= $font-size {
+    $lh: ceil($font-size / $line-height) * $line-height;
+  }
+  @return $lh;
+}
+
+@mixin height-margin($fs) {
+  $lh: line-height($fs);
+  $m: $lh - $fs;
+  
+  line-height: $lh - $m;
+  margin: 0 0 $m;
+}
+
+@mixin text-truncate() {
+  white-space:nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;  
+}
+
+// variables
+$base-font-size: 1rem;
+$leading: 1.5;
+$line-height: $leading * $base-font-size;
+
+$u: 2;
+$unit: $base-font-size / $u;
+// must results into an integer
+$u-leading: $leading * $u;
+
+$sz: golden($base-font-size);

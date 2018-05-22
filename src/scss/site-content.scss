@@ -1,0 +1,102 @@
+@import "base/all";
+
+main {
+	position: relative;
+	top: 1 * $line-height;
+}
+main, section {
+  width: 100%;
+}
+
+p {
+  &:last-child {
+    margin-bottom: $line-height;    
+  }
+  text-indent: $line-height;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  & > img {
+    max-width: 100%;
+    max-height: 10*$line-height;
+    margin-bottom: $line-height;
+    @at-root {
+      &.left {
+        float: left;
+        margin-right: $line-height;
+      }
+      &.right {
+        float: right;
+        margin-left: $line-height;
+      }
+      &.uncontrolled {
+        max-width: none;
+        max-height: none;
+        margin-bottom: none;
+      }
+    }
+  }
+}
+
+$h:(1,2,3);
+$k: 7;
+@each $n in $h {
+  $font-size: nth($sz, $k - $n);
+  h#{$n} {
+    font-size: $font-size;
+    line-height: line-height($font-size);
+    //margin-bottom: $line-height;
+    text-transform: lowercase;
+    &:first-letter {
+      text-transform: capitalize;
+    }
+  }
+}
+
+.content {
+  max-width: $max-width;
+  margin: auto;
+  padding: $line-height;
+}
+
+.summary {
+  $fs: nth($sz, 3);
+  font-size: $fs;
+  line-height: line-height($fs);
+  $offset: $unit;
+  @at-root {
+    // neighboring with a h1
+    h1 + & {
+      // needs a more little space but it gets out of rhytm
+      margin-top: $offset;
+      // enter back to the rhytm
+      margin-bottom: $line-height - $offset;
+    }
+  }
+  text-indent: 0;
+  position: relative;
+  padding: 0 2*$unit;
+  $grey: 100;
+  color: rgba($grey, $grey, $grey, 1);
+  &:before {
+    content:'';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to bottom, rgba($grey, $grey, $grey, 1) 5%, transparent 100%) left top / 100% 100% no-repeat;
+    width: $unit;
+    height: 100%;
+  }
+}
+
+
+.music {
+  color: darken(#fff, 10%);
+  background-color: rgba(100, 100, 100, .9);
+}

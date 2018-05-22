@@ -1,0 +1,75 @@
+// colors
+
+// greys
+$white: #fff !default;
+$grey-00: #444444 !default;
+$grey-01: #515151 !default;
+$grey-02: #6a6a6a !default;
+$grey-03: #848484 !default;
+$grey-10: #eaeaea !default;
+$black: #000 !default;
+
+// grey range
+$greys: () !default;
+$greys: map-merge((
+	00: $grey-00,
+	01: $grey-01,
+	02: $grey-02,
+	03: $grey-03,
+	10: $grey-10
+), $greys);
+
+// colors
+$blue: #007bff !default;
+$red: #ff1810 !default;
+$yellow: #FF7703 !default;
+$violet: #CE0271 !default;
+$green: #02C90F !default;
+
+$colors: () !default;
+$colors: map-merge((
+	blue: $blue,
+	red: $red,
+	yellow: $yellow,
+	violet: $violet,
+	green: $green
+), $colors);
+
+// default theme
+$primary: $blue;
+$secundary: $grey-00;
+$danger: $red;
+$accent: $green;
+$light: $grey-10;
+$dark: $grey-00;
+
+// greyed theme
+$primary: $grey-00;
+$secundary: $grey-01;
+$danger: $grey-02;
+$accent: $grey-10;
+$light: $grey-10;
+$dark: $grey-00;
+
+$theme-colors: () !default;
+$theme-colors: map-merge((
+	primary: $primary,
+	secundary: $secundary,
+	danger: $danger,
+	accent: $accent,
+	light: $light,
+	dark: $dark
+), $theme-colors);
+
+// utility functions binded with variables from here
+@function grey($key: '00') {
+	@return map-get($greys, $key);
+}
+
+@function color($key: 'blue') {
+	@return map-get($colors, $key);
+}
+
+@function theme-color($key: 'primary') {
+	@return map-get($theme-colors, $key);
+}

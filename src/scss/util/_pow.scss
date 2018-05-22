@@ -1,0 +1,46 @@
+$iterations: 50; // determines precision
+
+@function e($x) {
+  $y: 1;
+  @for $i from $iterations through 1 {
+    $y: 1 + $x * $y / $i;
+  }
+  @return $y;
+}
+
+@function ln($x) {
+  $y: 1;
+  @for $i from 1 through $iterations {
+    $e_y: e($y);
+    $y: $y + 2 * ($x - $e_y) / ($x + $e_y);
+  }
+  @return $y;
+}
+
+/*
+We rely on the identity that pow(x, y+z) = pow(x, y) * pow(x, z)
+to split the calculation into two parts:
+raising x to an integer power, which we can do via exponentiation by squaring;
+raising x to a power < 1 using the identity pow(x, y) = e(y * ln(x));
+and multiplying the two parts together
+*/
+@function pow($x, $y) {
+  @if ($y == 0) {
+    @return 1;
+  }
+  @if ($y < 0) {
+    @return 1 / pow($x, -$y);
+  }
+  $y_: $y % 1;
+  $y: floor($y);
+  $z: 1;
+  @while $y > 0 {
+    @if $y % 2 > 0 {
+      $z: $z * $x;
+      $y: $y - 1;
+    }
+    $x: $x * $x;
+    $y: $y / 2;
+  }
+  @return $z * if($y_, e($y_ * ln($x)), 1);
+}

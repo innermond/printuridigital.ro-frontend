@@ -1,0 +1,24 @@
+@import "pow";
+
+@function sizes($f0, $r:2, $n:4) {
+	$i: -1;
+  $sz: ();
+	@while $i <= $n {
+    $val: $f0 * pow($r, $i/$n);
+		$sz: append($sz, $val);
+		$i: $i + 1;
+	}
+	@return $sz;
+}
+
+@function golden($base) {
+  $sz1: sizes($base, 1.618, 2);
+  $sz2: sizes(1.618rem, 1.618, 2);
+  $sz: join($sz1, (nth($sz2, 3), nth($sz2, 4)));
+  @return $sz;
+}
+
+@function classic($base) {
+  $sz: sizes($base, 2, 5);
+  @return $sz;
+}
